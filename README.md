@@ -1,2 +1,2 @@
-# khang.github.io
-HCDE439
+# HCDE439 Webpage
+My physical computing webpage
