@@ -5,10 +5,22 @@ html, body {
   font-family: 'helvetica', 'arial', 'sans';
 }
 
+body {
+  padding: 30px 30px 30px;
+  margin-bottom: 100px;
+}
+
 h1,h2,h3,h4 {
   font-family: 'helvetica', 'arial', 'sans';
-  }
+}
 
+.bordered {
+  border: black solid 1px;
+}
+
+.content {
+  margin-bottom: 100px;
+}
 
 a {
   color: #000;
@@ -18,7 +30,6 @@ a {
   background: #fff;
   color: #000;
   height: 500px;
-  padding: 30px 30px 30px;
 }
 
 .header h1 {
@@ -33,6 +44,7 @@ a {
   width: 250px;
   height: 350px;
   float: left;
+  margin-right: 200px;
 }
 
 .assignment a {
