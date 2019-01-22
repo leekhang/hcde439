@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+		<title>Assignment 2</title>
+		<link href="../style.css" media="screen" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+
+		<div class="header">
+			<a href="../index.html">Home</a>
+			<h1>Assignment 2: LEDs That Fade!</h1>
+			<p class="parawrap">Prompt: Create a circuit that utilizes LEDs, resistors, and pushbuttons while using the functions analogWrite, digitalWrite, and digitalRead.</p>
+			<p><img class="bordered" src="workingcircuit.gif" width=400></p>
+		</div>
+
+		<div class="content">
+			<p>Schematic</p>
+			<p><img class="bordered" src="schematic.jpg" width=400></p>
+			<p class="parawrap">In this circuit, both red and green LEDs are connected in parallel through pins 11 and 10 respectively. Each LED is then connected to a resistor in series, where the two routes then converge to a single push button and then to ground.</p>
+		</div>
+
+		<div class="content">
+			<p>Calculations</p>
+			<p><img class="bordered" src="calc.jpg" width=400></p>
+			<p class="parawrap">The Arduino I/O pins only allow a maximum of 40mA whereas the LEDs only allow a maximum of 30mA. Hence, the calculations are made based on the bottleneck value of 30mA.</p>
+		</div>
+
+		<div class="content">
+			<p>Arduino .ino File</p>
+			<p><img class="bordered" src="inofile.png" width=600></p>
+			<p class="parawrap">As shown in the code, the red LED is used as the fading LED and the green LED is used as the blinking LED. In this for loop, the fade is accomplished by writing (analogWrite) the increment value i and the blinking is accomplished by writing (digitalWrite) the opposite of the previous value (digitalRead) on the green LED pin.</p>
+		</div>
+
+		<div class="content">
+			<p>Circuit</p>
+			<p><img class="bordered" src="circuit.jpg" width=400></p>
+		</div>
+	</body>
+
+</html>
