@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+		<title>Assignment 3</title>
+		<link href="../style.css" media="screen" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+
+		<div class="header">
+			<a href="../index.html">Home</a>
+			<h1>Assignment 3: Input Output</h1>
+			<p class="parawrap">Prompt: Create a circuit that utilizes a sensor in a voltage divider to change the state of an LED while using analogRead and analogWrite.</p>
+			<p><img class="bordered" src="workingcircuit.gif" width=400></p>
+			<p class="parawrap">For this assignment, I implemented a circuit that lights up red when bright and blue when dark.</p>
+		</div>
+
+		<div class="content">
+			<p>Schematic</p>
+			<p><img class="bordered" src="schematic.jpg" width=400></p>
+			<p class="parawrap">In this circuit, the blue and red LEDs are connected in parallel through pins 11 and 10 respectively. Each LED is then connected seperate resistors and then to a common ground. The voltage divider circuit is created with a fixed resistor followed by a photoresistor in series with a pin connected in between them for voltage readings.</p>
+		</div>
+
+		<div class="content">
+			<p>Resistance Calculations</p>
+			<p><img class="bordered" src="./resistancecalc.jpg" width=400></p>
+			<p class="parawrap">Since the same LEDs are used in this circuit as that of assignment 2, the same calculations are conducted for the additional resistances required for each LED. Final resistances are picked based on what is available.</p>
+		</div>
+
+		<div class="content">
+			<p>Voltage Divider Calculations</p>
+			<p><img class="bordered" src="./dividercalc.jpg" width=400></p>
+			<p class="parawrap">The minimum required total resistance is calculated for the voltage divider based on the maximum current allowed throw the Vcc to ground pins (which is 200mA). Final resistances are picked based on what is available.</p>
+		</div>
+
+		<div class="content">
+			<p>Arduino .ino File</p>
+			<p><img class="bordered" src="inofile.png" width=600></p>
+			<p class="parawrap">The range of input values coming from the photoresistor pin is initially determined using the serial monitor. After knowing the range for the given environment, I set up the if statements for the red and blue LEDs (around 600). Since the analogWrite function has a maximum write value of 255, I decided to set the high value at 220 value just in case it gets too bright.</p>
+		</div>
+
+		<div class="content">
+			<p>Circuit</p>
+			<p><img class="bordered" src="circuit.jpg" width=400></p>
+		</div>
+	</body>
+
+</html>

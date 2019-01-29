@@ -29,7 +29,7 @@ a {
 .header {
   background: #fff;
   color: #000;
-  height: 500px;
+  margin-bottom: 100px;
 }
 
 .header h1 {
