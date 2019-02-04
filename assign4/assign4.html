@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+		<title>Assignment 3</title>
+		<link href="../style.css" media="screen" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+
+		<div class="header">
+			<a href="../index.html">Home</a>
+			<h1>Assignment 4: Higher Voltage &amp; Transistors</h1>
+			<p class="parawrap">Prompt: Create a circuit that utilizes a sensor and a transistor to turn on a seperate circuit with a higher voltage.</p>
+			<p><img class="bordered" src="workingcircuit.gif" width=400></p>
+			<p class="parawrap">For this assignment, I implemented a circuit that lights up an LED strip when the the surroundings is bright and turns it off when it is dark.</p>
+		</div>
+
+		<div class="content">
+			<p>Schematic</p>
+			<p><img class="bordered" src="schematic.jpg" width=400></p>
+			<p class="parawrap">In this circuit, the same voltage divider circuit as Assignment 3 is used here to measure the voltage drop across the LDR using pin A0. PIN 10 is used as the voltage source for the base of the transistor with a resistor connected in series to prevent an over-supply of current. The LED strip connected to a 12V power supply is connected to an ammeter in series and then to the collector of the transistor. The emmitor is connected to ground.</p>
+		</div>
+
+		<div class="content">
+			<p>Current Through LED Strip</p>
+			<p><img class="bordered" src="./current.jpg" width=400></p>
+			<p class="parawrap">To ensure that the current through the collector-emitter does not exceed 0.6A. An ammeter is initially used is connected in series with the LED strip to measure the current at all times. When the transistor's gate is on, the current through is only at 0.07A (70mA).</p>
+		</div>
+
+		<div class="content">
+			<p>Resistance Calculations</p>
+			<p><img class="bordered" src="./resistancecalc.jpg" width=400></p>
+			<p class="parawrap">The calculations for R1 is the same as that of Assignment 3 since the same circuit is used. For R<sub>B</sub>, it is derived from the fact that I/O pins have a max current of 40mA. Since the activation voltage for the transistor is around 0.5V - 0.6V, R<sub>B</sub> should be greater than 110&#8486;. According to Nadya, a good rule of thumb for resistors connected to transistor bases are 10k&#8486; and above.</p>
+		</div>
+
+		<div class="content">
+			<p>Arduino .ino File</p>
+			<p><img class="bordered" src="./inofile.png" width=600></p>
+			<p class="parawrap">The range of input values coming from the photoresistor pin is initially determined using the serial monitor. After knowing the range for the given environment, I set up the if statements for the LED strips (around 400 this time).</p>
+		</div>
+
+		
+
+		<div class="content">
+			<p>Circuit</p>
+			<p><img class="bordered" src="./circuit.jpg" width=400></p>
+		</div>
+	</body>
+
+</html>
