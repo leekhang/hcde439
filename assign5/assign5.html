@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+		<title>Assignment 5</title>
+		<link href="../style.css" media="screen" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+
+		<div class="header">
+			<a href="../index.html">Home</a>
+			<h1>Assignment 5: Motors</h1>
+			<p class="parawrap">Prompt: Create a circuit that utilizes an input device to control a motor.</p>
+			<p><img class="bordered" src="workingcircuit.gif" width=400></p>
+			<p class="parawrap">For this assignment, I implemented a circuit that controls the angle of the servo motor using a joystick.</p>
+		</div>
+
+		<div class="content">
+			<p>Schematic</p>
+			<p><img class="bordered" src="schematic.jpg" width=400></p>
+			<p class="parawrap">In this circuit, the joystick and servo are connected to the 5V supply and ground of the arduino. The joystick y position value is sent to A1 pin and the servo PWM signal is connected to pin 11.</p>
+		</div>
+		
+		<div class="content">
+			<p>Arduino .ino File</p>
+			<p><img class="bordered" src="./inofile.png" width=600></p>
+		</div>
+
+		<div class="content">
+			<p>Serial Monitor</p>
+			<p><img class="bordered" src="./serial.gif" width=600></p>
+			<p class="parawrap">The range of input values coming from the joystick y value determined using the serial monitor. The value is then mapped to a servo value between 0 and 180 which is also printed in the serial monitor.</p>
+		</div>
+
+		<div class="content">
+			<p>Circuit</p>
+			<p><img class="bordered" src="./circuit.jpg" width=400></p>
+		</div>
+	</body>
+
+</html>
