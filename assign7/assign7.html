@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+		<title>Assignment 7</title>
+		<link href="../style.css" media="screen" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+		<div class="header">
+			<a href="../index.html">Home</a>
+			<h1>Assignment 7: Computer Control</h1>
+			<p class="parawrap">Prompt: Create a webpage with p5.js that interacts with data that’s coming to from and from your arduino over serial. You must have at least 2 input devices from the arduino and one output that uses a transistor.</p>
+			<p><img class="bordered" src="workingcircuit.gif" width=400></p>
+			<p class="parawrap">For this assignment, I implemented a potentiometer that allows the user to adjust the color on the screen, a light sensor that tells a webpage the lighting conditions of a room, and a LED strip that can be toggled on and off using the "o" key on the keyboard if the room is too dark. This is done using the p5.js framework and its serial library. The screen displays the lighting condition of the room (e.g. "The room is bright", "... well lit", "... dim", and "... dark").</p>
+		</div>
+
+		<div class="content">
+			<p style="font-weight: 800">Schematic</p>
+			<p><img class="bordered" src="./schematic.jpg" width=400></p>
+			<p class="parawrap">In this circuit, two potential dividers are used to measure the voltage drop offs from the potentiometer and the LDR. The measurements for R<sub>1</sub>, R<sub>2</sub>, and R<sub>B</sub> are shown below.</p>
+		</div>
+
+		<div class="content">
+			<p style="font-weight: 800">Resistance Calculations</p>
+			<p><img class="bordered" src="./calc.jpg" width=400></p>
+			<p class="parawrap">The calculations for R<sub>1</sub> is the same as that of Assignment 3 since the same circuit is used. The calculations for R<sub>2</sub> is the same as that of Assignment 4. The calculation for R<sub>B</sub> is the same as that of Assignment 6 (refer to A6 for further explanation).</p>
+		</div>
+		
+		<div class="content">
+			<p style="font-weight: 800">Arduino .ino File</p>
+			<p><img class="bordered" src="./inofile.png" width=600></p>
+		</div>
+
+		<div class="content">
+			<p style="font-weight: 800">Sketch.js File</p>
+			<p><img class="bordered" src="./sketchjs.png" width=750></p>
+			<p class="parawrap">The sketch.js file shows the programming used to process the serial data. The potentiometer and LDR values are parsed via JSON.parse function into an array thenn mapped to a 0-100 range. Custom hues and brightness levels are set for different intervals.</p>
+			<p class="parawrap">During the data retrieval process (see try catch section), it is noted that the retrieval rate of the browser is much faster than the transmission rate of the arduino, resulting to several null strings between valid data strings. A way to combat this is to have an old data array that keeps track of the previous valid data. In that sense, if the incoming data string is empty, use the previous data, otherwise update the incoming data as the new datain and the old data array as well.</p>
+		</div>
+
+		<div class="content">
+			<p style="font-weight: 800">Console</p>
+			<p><img class="bordered" src="./console.gif" width=600></p>
+			<p class="parawrap">The arduino inputs are printed onto the browser console using the "console.log()" function to check if there is a connection. Note that there are no empty arrays since it is taken care of by keeping track of and reusing the old data (when the data string is empty).</p>
+		</div>
+
+		<div class="content">
+			<p style="font-weight: 800">Circuit</p>
+			<p><img class="bordered" src="./circuit.jpg" width=400></p>
+		</div>
+	</body>
+</html>
