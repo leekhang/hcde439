@@ -43,7 +43,7 @@
 		<div class="content">
 			<h2>sketch.js File</h2>
       <p class="parawrap">The sketch file facilitates the communication of the webpage and the arduino through serial. The sketch is in charge of creating and deleting li elements through the p5 functions createElement() and remove() respectively. Created elements are placed into DOM through the p5's parent() function.</p>
-      <p class="parawrap">The sketch actively listens to the serial port. But occasionally reads a bunch of zeros when the arduino isn't sending anything. To work around this, I decided to avoid the value 0 in the signal. The value 1 is used as a "boot up" signal such that when it is sent from the arduino, the sketch file sends the current array of action items. If a value greater than 1 is received, this means that the arduino is trying to remove an action item where the index of the action item is simply the value received minus 2.</p>
+      <p class="parawrap">The sketch actively listens to the serial port but occasionally reads a bunch of zeros when the arduino isn't sending anything. To work around this, I decided to avoid the value 0 entire as a communication signal such that when zero is received, it is ignored. The value 1 is used as a "boot up" signal such that when it is sent from the arduino, the sketch file sends the current array of action items. If a value greater than 1 is received, this means that the arduino is trying to remove an action item where the index of the action item is simply the value received minus 2.</p>
 			<pre><code>
 "use strict";
 const ABS_MAX = 15; // Maximum number of to-dos that you can create.
@@ -289,7 +289,7 @@ void displayLCD(String text, int col, int row, boolean clear) {
 
 		<div class="content">
 			<h2>Casing</h2>
-      <p class="parawrap">The casing is built by creating a packaging dieline on Adobe illustrator and using a laser cutter to cut it out. I then used tape to secure the components and flaps in place.</p>
+      <p class="parawrap">The casing is built by creating a packaging dieline on Adobe illustrator using red to indicate cut lines and blue to indicate crease lines. A laser cutter was then used to cut it out. Components were secured onto dieline and the flaps were taped in place.</p>
       <img class="bordered inline" src="dieline.png" height=450>
       <img class="bordered inline" src="case.jpg" height=450>
 		</div>
