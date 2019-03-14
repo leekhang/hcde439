@@ -13,27 +13,37 @@
 		<div class="header">
 			<a href="../index.html">Home</a>
 			<h1>Final Project: To Do List!</h1>
-			<iframe width="560" height="315" src="https://www.youtube.com/embed/ojoNwLA1-fA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-			<p class="parawrap">For my final project, I created a to do list device that allows you to input action items through a webpage and onto the device.</p>
+      <p class="parawrap">For my final project, I created a to do list device that allows you to input action items through a webpage and onto the device.</p>
+      <iframe width="700" height="450" src="https://www.youtube.com/embed/ojoNwLA1-fA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 		</div>
 
 		<div class="content">
 			<h2>Concept</h2>
-			<img class="bordered inline" src="sketching.jpg" height=250>
+      <p class="parawrap">The motivation for this project came from my an inspiration to have a physical object that helps me keep track of my daily routines rather than from an app hidden on my phone/laptop. This product involves an arduino that displays the items on an LCD and communicates via serial with a locally hosted webpage.</p>
+      <img class="bordered inline" src="sketching.jpg" height=250>
 			<img class="bordered inline" src="blockdiagram.jpg" height=250>
-			<p class="parawrap">The motivation for this project came from my an inspiration to have a physical object that helps me keep track of my daily routines rather than from an app hidden on my phone/laptop. This product involves an arduino that displays the items on an LCD and communicates via serial with a locally hosted webpage.</p>
 		</div>
 
 		<div class="content">
 			<h2>Schematic</h2>
-			<img class="bordered inline" src="circuit.jpg" height=250>
-			<img class="bordered inline" src="pcb.jpg" height=250>
-			<p class="parawrap">The schematic for this project is relatively simple. There are only two switches on board, one to traverse between action items, and the other to check of action items. The LCD used in this project uses a shield that supports the I2C protocol and hence provides the pins for the SDA and SCL connections. The buttons part of the circuit is soldered onto a PCB.</p>
+      <p class="parawrap">The schematic for this project is relatively simple. There are only two switches on board, one to traverse between action items, and the other to check of action items. The LCD used in this project uses a shield that supports the I2C protocol and hence provides the pins for the SDA and SCL connections. The buttons part of the circuit is soldered onto a PCB.</p>
+      <p class="parawrap">The I/O pins can only take a maximum current of 30mA. Given that the device is designed to have the buttons pressed seperately (not at the same time), the resistors for each button should be at least 167 Ohms. However, if the buttons were both pressed at the same time, the total resistance of R1 and R2 should also be above 167 Ohms. With that in mind, 560 Ohm resistors are used such that when both buttons are pressed at the same time, the resulting resistance (560 / 2 = 280 Ohms) would still be greater than 167 Ohms.</p>
+      <img class="bordered inline" src="circuit.jpg" height=250>
+      <img class="bordered inline" src="pcb.jpg" height=250>
+      <img class="bordered inline" src="calc.jpg" height=250>
 		</div>
+
+    <div class="content">
+        <h2>Webpage</h2>
+        <p class="parawrap">I built a webpage as the main interactive interface to add new action items. Each action is limited to 16 characters (due to width limit of LCD). You can find the html and css file <a href="https://drive.google.com/open?id=1p5YSA0M69bGWCj9l6im1k8h7FO4koovW">here</a>.</p>
+        <img class="bordered inline" src="webpage.png" height=250>
+        <img class="bordered inline" src="webpagezoomed.png" height=250>
+      </div>
 
 		<div class="content">
 			<h2>sketch.js File</h2>
-			<img class="bordered" src="inofile.png" width=400>
+      <p class="parawrap">The sketch file facilitates the communication of the webpage and the arduino through serial. The sketch is in charge of creating and deleting li elements through the p5 functions createElement() and remove() respectively. Created elements are placed into DOM through the p5's parent() function.</p>
+      <p class="parawrap">The sketch actively listens to the serial port. But occasionally reads a bunch of zeros when the arduino isn't sending anything. To work around this, I decided to avoid the value 0 in the signal. The value 1 is used as a "boot up" signal such that when it is sent from the arduino, the sketch file sends the current array of action items. If a value greater than 1 is received, this means that the arduino is trying to remove an action item where the index of the action item is simply the value received minus 2.</p>
 			<pre><code>
 "use strict";
 const ABS_MAX = 15; // Maximum number of to-dos that you can create.
@@ -128,7 +138,7 @@ function keyPressed() {
 // Updates the char count above the text field and restrict the user from inputting more than 16 chars.
 function keyReleased() {
 	let count = 16 - input.value().length; // set count to be the remaining number of chars available.
-	if (count < 0) { // if there are no more available chars
+	if (count &lt; 0) { // if there are no more available chars
 		input.value(input.value().substring(0,16)); // restrict the string in the text field to 16.
 		count = 0; // keep count at 0.
 	}
@@ -162,17 +172,126 @@ const portClose = () => print('The serial port closed.');
 
 		<div class="content">
 			<h2>.ino File</h2>
-			<p><img class="bordered" src="inofile.png" width=400></p>
+      <p class="parawrap">For the arduino code, the device boots up with the setup function and sends a 1 to the webpage to fetch current action items on the web(as mentioned before). Then for each loop, the arduino checks the serial for new data, checks the inputs from the buttons, and increments the timer (which turns off the LCD backlight after about 1 minute).</p>
+      <p class="parawrap">The sketch file sends the entire array of action items every time and the arduino breaks it down into 16 character chunks and stores them into the array, replacing the old array (see checkSerial() function).</p>
+      <pre><code>
+#include &lt;Wire.h&gt; // include the Wire.h library
+#include "rgb_lcd.h" // include lcd library
+
+const int ABS_MAX = 15; // Max number of todo items.
+const int SWITCH = 12; // set constant for SWITCH pin.
+const int ENTER = 13;  // set constant for ENTER pin.
+const String WELCOME = "   To Do List"; // set constant for welcome message
+
+rgb_lcd LCD; // instantiate an LCD object.
+int cursor;  // instantiate a cursor variable to keep track of cursor.
+int upper; // instantiate a variable to keep track of the number of todos.
+int timer; // instantiate a variable to keep track of the time passed.
+String toDos[ABS_MAX] = {}; // instantiate an array with a maximum 
+String index;
+
+void setup() { // setup code to run once:
+  Serial.begin(9600); // initialize serial communications at 9600 baud.
+  pinMode(SWITCH, INPUT); pinMode(ENTER, INPUT); // set pins as inputs
+  cursor = 0; upper = 0; // instantiate cursor and upper at 0
+  LCD.begin(16, 2); // set up the LCD's number of columns and rows
+  LCD.setRGB(255, 255, 255); // set background color of LCD
+  displayLCD(WELCOME, 0, 0, false); // print welcome message
+  delay(2000); // delay the welcome message by 2 sec
+  Serial.println(1); // signal sketch.js to send the todo items from the webpage.
+}
+
+void loop() { // loop code to run continuously:
+  if (timer > 600) LCD.setRGB(0, 0, 0); // if counting timer is approx after 1 min, turn off LCD backlight
+  checkSerial(); // check the serial from input
+  if (upper == 0) displayLCD("--- No Tasks ---", 0, 1, true); // if there are no tasks, write no tasks on screen
+  if (digitalRead(SWITCH)) { // if switch is clicked
+    timer = 0; // reset the counting timer
+    if (upper == 0) { // if there are no todos
+      LCD.setRGB(0, 255, 0); // set LCD backlight to green
+    } else { 
+      LCD.setRGB(255, 255, 255); // set LCD backlight to white
+      traverseToDo();
+    }
+  } else if (digitalRead(ENTER)) {
+    timer = 0; // reset the counting timer
+    if (upper == 0) { // if there are no todos
+      LCD.setRGB(0, 255, 0); // set LCD backlight to green
+    } else {
+      LCD.setRGB(255, 255, 255); // set LCD backlight to white
+      removeToDo(); // remove a todo item
+    }
+  }
+  timer++; // increment counting timer;
+  delay(100); // delay by 100 ms to slow down the loop.
+}
+
+// Checks the serial for todo items from the webpage and refreshes the arduino
+// with the new todo items.
+void checkSerial() {
+  if (Serial.available()) { // if theres data in serial
+    String item = Serial.readString(); // read the entire string from serial
+    if (item.length() > 1) { // if the string isn't a single character
+      for (int i = 0; i < item.length() / 16; i++) {
+        toDos[i] = item.substring(16*i, 16*(i+1)); // split the string into 16 chars each and save them
+      }
+    }
+    upper = item.length() / 16; // set the upper as the total no. of 16 char strings
+    cursor = (upper > 0) ? upper - 1 : 0; // set cursor as the last todo item
+    LCD.setRGB(255, 255, 255); // set LCD backlight to white
+    displayToDo(cursor); // display the todo item at cursor
+    timer = 0; // reset counting timer
+  }
+}
+
+// Goes through the todo list items.
+void traverseToDo() {
+  (cursor == upper - 1) ? cursor = 0 : cursor++; // increment to cursor to the next todo item
+  displayToDo(cursor); // display the new todolist
+  while (digitalRead(SWITCH)) {/* Used to prevent multiple increments per press */}
+}
+
+// Removes a todo list item and updates the cursor and upper variable.
+void removeToDo() {
+  Serial.println(cursor+2); // send cursor + 2 to webpage
+  toDos[cursor] = ""; // remove todo item from array
+  if (cursor < upper - 1) { // if cursor is not the index of the last item 
+    for (int i = cursor; i < upper; i++) {
+      toDos[i] = toDos[i + 1]; // shift each element to the left.
+    }
+    cursor++; // increment to cancel out the decrement below
+  }
+  cursor--; // decrement the cursor
+  upper--; // reduce the total number of todo items 
+  LCD.setRGB(0, 255, 0); // set LCD backlight to green
+  displayLCD("DONE", 12, 0, false); // display done on top right corner of screen
+  delay(1000); // delay the done screen by 1 sec
+  LCD.setRGB(255, 255, 255); // set LCD backlight back to white
+  displayToDo(cursor); // display previous todo item
+  while (digitalRead(ENTER)) {/* Used to prevent multiple deletes per press */}
+}
+
+// Displays a todo item at a given index i with the index at the top row and the todo item at the bottom.
+void displayToDo(int i) {
+  String index = String(i + 1) + "of" + String(upper); // convert index to a string
+  displayLCD(index, 0, 0, true); // display the index at the top with refresh
+  displayLCD(toDos[i], 0, 1, false); // display the todo item at the bottom without refresh
+}
+
+// Displays a text on the LCD with given coordinates (col and row) with the option to clear the screen.
+void displayLCD(String text, int col, int row, boolean clear) {
+  if (clear) LCD.clear(); // clears the screen if clear is true
+  LCD.setCursor(col, row); // set the cursor of the LCD
+  LCD.print(text); // print the text on the LCD
+}
+      </code></pre>
 		</div>
 
 		<div class="content">
 			<h2>Casing</h2>
-			<p><img class="bordered" src="inofile.png" width=400></p>
-		</div>
-
-		<div class="content">
-			<p style="font-weight: 800">Casing</p>
-			<p><img class="bordered" src="inofile.png" width=400></p>
+      <p class="parawrap">The casing is built by creating a packaging dieline on Adobe illustrator and using a laser cutter to cut it out. I then used tape to secure the components and flaps in place.</p>
+      <img class="bordered inline" src="dieline.png" height=450>
+      <img class="bordered inline" src="case.jpg" height=450>
 		</div>
 	</body>
 

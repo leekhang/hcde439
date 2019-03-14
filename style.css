@@ -1,9 +1,9 @@
 
-/* html, body {
+html, body {
   padding: 0 0 0 0;
   margin: 0;
   font-family: 'helvetica', 'arial', 'sans';
-} */
+}
 
 body {
   padding: 30px 30px 30px;
@@ -12,6 +12,16 @@ body {
 
 h1,h2,h3,h4 {
   font-family: 'helvetica', 'arial', 'sans';
+}
+
+pre {
+  border: 1px solid black;
+  padding-left: 1rem;
+  width: 700px;
+}
+
+code {
+  font-size: 0.625rem;
 }
 
 .bordered {
@@ -84,7 +94,7 @@ a {
 }
 
 .parawrap {
-  width: 600px;
+  width: 700px;
   line-height: 1.4rem;
 }
 
